@@ -1,8 +1,10 @@
-export default function Message ({message: {
-  content: {text},
-  username: {username}}}) {
-    return (
-    <article className="message">
-      <div><span>{username}</span><span>{text}</span></div>
-    </article>);
-}
+import React from 'react';
+
+const Message = ({ message }) => (
+
+  <div className="message">
+    <span className="message-username">{message.username}</span>
+    <span className="message-content">{message.content}</span>
+  </div>);
+
+export default Message;
