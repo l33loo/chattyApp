@@ -1,13 +1,18 @@
+import React from 'react';
+
 import Message from './Message.jsx';
 
-export default function MessageList ({messages}) {
-  const messageComponents = messages.map((msg) => (<Message message={msg}/>))
+function MessageList ({ messages }) {
+  const messageComponents = messages.map((msg) => (<Message key={ msg.id } message={ msg }/>))
     return (
-      <main class="messages">
+      <main className="messages">
           {messageComponents}
       </main>
     );
 }
+
+export default MessageList;
+
 
 //const X = (props) => (
 //<div>...</div>)
