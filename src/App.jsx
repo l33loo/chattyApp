@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
+import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
   constructor() {
@@ -44,7 +45,14 @@ class App extends Component {
     }
   }
   render() {
-    return (<MessageList messages={this.state.messages}/>);
+    return (
+      <div>
+        <nav>
+          <a href="/">ChattyApp</a>
+        </nav>
+        <MessageList messages={this.state.messages}/>
+        <ChatBar/>
+      </div>);
   }
 }
 export default App;
