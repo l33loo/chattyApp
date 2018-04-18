@@ -51,8 +51,34 @@ class App extends Component {
 
                 }
             ]
+
         }
+        this.onNewPost = this.onNewPost.bind(this);
     }
+
+    componentDidMount() {
+        console.log("componentDidMount <App />");
+        setTimeout(() => {
+            console.log("Simulating incoming message");
+            const newMessage = {id: 8, username: "Michelle", content: "Hello there!"}
+            const messages = this.state.messages.concat(newMessage);
+            this.setState({ messages: messages })
+        }, 3000);
+    }
+
+    onNewPost(text) {
+        const posts = this.state.messages;
+        const newPost = {
+            id: (Math.floor(Math.random() * 2000) + 7),
+            type: 'incomingMessage',
+            content: text,
+            username: this.state.currentUser
+        };
+        posts.push(newPost)
+        this.setState(posts);
+        console.log(posts);
+    }
+
     render() {
         console.log("Rendering <App/>");
         return (
@@ -61,7 +87,7 @@ class App extends Component {
                   <a className="navbar-brand" href="/">Chatty</a>
                 </nav>
                 <MessageList messages={ this.state.messages } />
-                <ChatBar currentUser={ this.state.currentUser } />
+                <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } />
             </div>);
     }
 }
