@@ -58,14 +58,20 @@ class App extends Component {
 
     componentDidMount() {
         console.log("componentDidMount <App />");
-        setTimeout(() => {
-            console.log("Simulating incoming message");
-            const newMessage = {id: 8, username: "Michelle", content: "Hello there!"}
-            const messages = this.state.messages.concat(newMessage);
-            this.setState({ messages: messages })
-        }, 3000);
+        // setTimeout(() => {
+        //     console.log("Simulating incoming message");
+        //     const newMessage = {id: 8, username: "Michelle", content: "Hello there!"}
+        //     const messages = this.state.messages.concat(newMessage);
+        //     this.setState({ messages: messages })
+        // }, 3000);
         this.socket = new WebSocket('ws://localhost:3001');
         console.log('Connected to server');
+        this.socket.addEventListener('message', (event) => {
+            const messageObject = JSON.parse(event.data);
+            // this.setState({
+            //     messages: this.state.messages.concat(newMessage)
+            // });
+        });
     }
 
     onNewPost(text) {
@@ -79,9 +85,9 @@ class App extends Component {
         // const messages = this.state.messages.concat(newMessage);
         // this.setState({ messages: messages });
         // console.log(this.state);
-        this.socket.onopen = function(event) {
+        // this.socket.onopen = (event) => {
             this.socket.send(JSON.stringify(newMessage));
-        }
+        // }
 
         // Blank the text input element, ready to receive the next line of text from the user.
         // document.getElementById("text").value = "";
