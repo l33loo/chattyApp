@@ -64,19 +64,27 @@ class App extends Component {
             const messages = this.state.messages.concat(newMessage);
             this.setState({ messages: messages })
         }, 3000);
+        this.socket = new WebSocket('ws://localhost:3001');
+        console.log('Connected to server');
     }
 
     onNewPost(text) {
-        const posts = this.state.messages;
-        const newPost = {
+        const newMessage = {
+            //need to change how id is created
             id: (Math.floor(Math.random() * 2000) + 7),
             type: 'incomingMessage',
             content: text,
             username: this.state.currentUser
         };
-        posts.push(newPost)
-        this.setState(posts);
-        console.log(posts);
+        // const messages = this.state.messages.concat(newMessage);
+        // this.setState({ messages: messages });
+        // console.log(this.state);
+        this.socket.onopen = function(event) {
+            this.socket.send(JSON.stringify(newMessage));
+        }
+
+        // Blank the text input element, ready to receive the next line of text from the user.
+        // document.getElementById("text").value = "";
     }
 
     render() {
