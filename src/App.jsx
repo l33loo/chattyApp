@@ -24,32 +24,32 @@ class App extends Component {
         //     this.setState({ messages: messages })
         // }, 3000);
         this.socket = new WebSocket('ws://localhost:3001');
-        console.log('Connected to server');
-        this.socket.addEventListener('message', (event) => {
-            const messageObject = JSON.parse(event.data);
-            // this.setState({
-            //     messages: this.state.messages.concat(newMessage)
-            // });
-        });
+
+        this.socket.onopen = (event) => {
+            console.log('Connected to server');
+        };
+
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-                console.log("DAAAAATA TYYYPE: ", data.type);
-
-            if (data.type === "incomingMessage") {
-                console.log("GOT TO MESSAGE@");
-                const msg = [data];
-                const messages = this.state.messages.concat(msg);
-                this.setState({ messages: messages });
-            } else {
-                console.log("GOT TO USER@");
-                const msg = [data];
-                // console.log(msg);
-                const messages = this.state.messages.concat(msg);
-                console.log("NEW NAME!: ", data.content.slice(5));
-                this.setState({ currentUser: data.content[5], messages: messages });
-
+            switch (data.type) {
+                case "incomingMessage":
+                    console.log("GOT TO MESSAGE@");
+                    const msg = [data];
+                    const messages = this.state.messages.concat(msg);
+                    this.setState({ messages: messages });
+                    break;
+                case "incomingNotification":
+                    console.log("GOT TO USER@");
+                    const msg = [data];
+                    // console.log(msg);
+                    const messages = this.state.messages.concat(msg);
+                    console.log("NEW NAME!: ", data.content.slice(5));
+                    this.setState({ currentUser: data.content[5], messages: messages });
+                    break;
+                default:
+                    throw new Error("unknown event type" + data.type);
             }
-        }
+        };
     }
 
     onNewPost(username, text) {
