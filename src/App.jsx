@@ -6,11 +6,13 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            currentUser: "bob",
+            currentUser: "",
             messages: []
 
         }
         this.onNewPost = this.onNewPost.bind(this);
+        this.onNewUsername = this.onNewUsername.bind(this);
+
     }
 
     componentDidMount() {
@@ -30,24 +32,58 @@ class App extends Component {
             // });
         });
         this.socket.onmessage = (event) => {
-            const msg = [JSON.parse(event.data)];
-            const messages = this.state.messages.concat(msg);
-            console.log("MESSAGES: ", messages);
-            console.log("TYPPPPE: ", typeof messages);
-            this.setState({ messages: messages });
+            const data = JSON.parse(event.data);
+                console.log(data);
+
+            // if (data.content) {
+                console.log("GOT TO MESSAGE@");
+                const msg = [data];
+                const messages = this.state.messages.concat(msg);
+                this.setState({ messages: messages });
+            // } else {
+            //     console.log("GOT TO USER@");
+            //     const user = data.username;
+            //     const { id, type, username } = data
+            //     const msg = [{ ...data, content: content}];
+            //     console.log(msg);
+            //     const messages = this.state.messages.concat(msg);
+            //     this.setState({ currentUser: user, messages: messages });
+
+            // }
         }
     }
 
     onNewPost(text) {
         const newMessage = {
             content: text,
-            username: this.state.currentUser
+            username: this.state.currentUser,
+            type: "incomingMessage"
         };
         // const messages = this.state.messages.concat(newMessage);
         // this.setState({ messages: messages });
         // console.log(this.state);
         // this.socket.onopen = (event) => {
             this.socket.send(JSON.stringify(newMessage));
+        // }
+
+        // Blank the text input element, ready to receive the next line of text from the user.
+        // document.getElementById("text").value = "";
+    }
+
+    onNewUsername(name) {
+        const oldName = "anonymous" || this.state.currentUser;
+        const content = oldName + " changed their name to " + name;
+
+        const newUsername = {
+            content: content,
+            username: "***System message***",
+            type: "incomingNotification"
+        };
+        // const messages = this.state.messages.concat(newMessage);
+        // this.setState({ messages: messages });
+        // console.log(this.state);
+        // this.socket.onopen = (event) => {
+            this.socket.send(JSON.stringify(newUsername));
         // }
 
         // Blank the text input element, ready to receive the next line of text from the user.
@@ -62,7 +98,7 @@ class App extends Component {
                   <a className="navbar-brand" href="/">Chatty</a>
                 </nav>
                 <MessageList messages={ this.state.messages } />
-                <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } />
+                <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
             </div>);
     }
 }
