@@ -5,18 +5,29 @@ export default class ChatBar extends Component {
     super({ props });
     this.state = { text: "", username: "" };
 
-    this.onContent = this.onContent.bind(this);
+    this.onTextContent = this.onTextContent.bind(this);
+    this.onUsernameContent = this.onUsernameContent.bind(this);
+
     this.onEnterText = this.onEnterText.bind(this);
     this.onEnterUsername = this.onEnterUsername.bind(this);
+
   }
 
   // changeText = (event) => {
   //   this.setState({ text: event.target.value });
   // }
 
-  onContent(event) {
+  onTextContent(event) {
     this.setState({
       text: event.target.value
+    });
+    // console.log("WOOHOO: ", this.state);
+  }
+
+
+  onUsernameContent(event) {
+    this.setState({
+      username: event.target.value
     });
     // console.log("WOOHOO: ", this.state);
   }
@@ -33,14 +44,15 @@ export default class ChatBar extends Component {
   }
 
   onEnterUsername(event) {
-    const state = {};
+    // const state = {};
     if(event.key === "Enter") {
       // console.log("STATE before: ", this.state);
-      this.props.onNewPost(this.state.text);
-      state.text = "";
+      this.setState({ currentUser: this.state.username });
+      this.props.onNewUsername(this.state.username);
+      // state.username = "";
       // console.log("STATE AFTER: ", this.state);
     }
-    this.setState(state);
+
   }
 
   render() {
@@ -52,11 +64,12 @@ export default class ChatBar extends Component {
       this.setState({ text: '' });
     };
 
-    const checkUser = this.props.currentUser ? this.props.currentUser : this.state.username
+    // const checkUser = this.props.currentUser ? this.props.currentUser : this.state.username;
+
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" defaultValue={ checkUser } placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterUsername } />
-        <input className="chatbar-message" value={ this.state.text } onChange={this.onContent} placeholder="Type a message and hit ENTER" onKeyPress={ this.onEnterText } />
+        <input className="chatbar-username" type="incomingMessage" defaultValue={ "anonymous" || this.props.currentUser } onChange={this.onUsernameContent} placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterUsername } />
+        <input className="chatbar-message" type="postMessage" value={ this.state.text } onChange={this.onTextContent} placeholder="Type a message and hit ENTER" onKeyPress={ this.onEnterText } />
       </footer>);
   }
 }
