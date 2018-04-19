@@ -36,7 +36,7 @@ export default class ChatBar extends Component {
     const state = {};
     if(event.key === "Enter") {
       // console.log("STATE before: ", this.state);
-      this.props.onNewPost(this.state.text);
+      this.props.onNewPost(this.state.username, this.state.text);
       state.text = "";
       // console.log("STATE AFTER: ", this.state);
     }
