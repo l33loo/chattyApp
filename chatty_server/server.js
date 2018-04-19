@@ -1,5 +1,5 @@
 const express = require('express');
-const SocketServer = require('ws').Server;
+const WebSocket = require('ws');
 const uuidv4 = require('uuid/v4');
 
 const PORT = 3001;
@@ -8,15 +8,19 @@ const server = express()
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
-const wss = new SocketServer({ server });
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('message', (data) => {
-    const msg = JASON.parse(data);
-    console.log(msg);
-    // ws.send(data);
-    // uuidv4();
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        const msgObj = JSON.parse(data);
+        const msgObjWithId = { id: uuidv4(), ...msgObj }
+        client.send(JSON.stringify(msgObjWithId));
+        console.log("DATA: ", JSON.stringify(msgObjWithId));
+      }
+    });
   });
   ws.on('close', () => console.log("Client disconnected"));
 });
