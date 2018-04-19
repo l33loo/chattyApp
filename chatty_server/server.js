@@ -1,5 +1,6 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
+const uuidv4 = require('uuid/v4');
 
 const PORT = 3001;
 
@@ -15,6 +16,7 @@ wss.on('connection', (ws) => {
     const msg = JASON.parse(data);
     console.log(msg);
     // ws.send(data);
+    // uuidv4();
   });
   ws.on('close', () => console.log("Client disconnected"));
 });
