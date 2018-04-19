@@ -33,23 +33,22 @@ class App extends Component {
         });
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-                console.log(data);
+                console.log("DAAAAATA TYYYPE: ", data.type);
 
-            // if (data.content) {
+            if (data.type === "incomingMessage") {
                 console.log("GOT TO MESSAGE@");
                 const msg = [data];
                 const messages = this.state.messages.concat(msg);
                 this.setState({ messages: messages });
-            // } else {
-            //     console.log("GOT TO USER@");
-            //     const user = data.username;
-            //     const { id, type, username } = data
-            //     const msg = [{ ...data, content: content}];
-            //     console.log(msg);
-            //     const messages = this.state.messages.concat(msg);
-            //     this.setState({ currentUser: user, messages: messages });
+            } else {
+                console.log("GOT TO USER@");
+                const msg = [data];
+                // console.log(msg);
+                const messages = this.state.messages.concat(msg);
+                console.log("NEW NAME!: ", data.content.slice(5));
+                this.setState({ currentUser: data.content[5], messages: messages });
 
-            // }
+            }
         }
     }
 
