@@ -53,11 +53,12 @@ class App extends Component {
         }
     }
 
-    onNewPost(text) {
+    onNewPost(username, text) {
         const newMessage = {
-            content: text,
-            username: this.state.currentUser,
-            type: "incomingMessage"
+            type: "postMessage",
+            username: username,
+            content: text
+
         };
         // const messages = this.state.messages.concat(newMessage);
         // this.setState({ messages: messages });
@@ -76,8 +77,7 @@ class App extends Component {
 
         const newUsername = {
             content: content,
-            username: "***System message***",
-            type: "incomingNotification"
+            type: "postNotification"
         };
         // const messages = this.state.messages.concat(newMessage);
         // this.setState({ messages: messages });
