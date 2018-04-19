@@ -16,9 +16,18 @@ wss.on('connection', (ws) => {
     wss.clients.forEach((client) => {
       // if (client.readyState === WebSocket.OPEN) {
         const msgObj = JSON.parse(data);
-        const msgObjWithId = { id: uuidv4(), type: 'incomingMessage', ...msgObj }
-        client.send(JSON.stringify(msgObjWithId));
-        console.log("DATA: ", JSON.stringify(msgObjWithId));
+        if (msgObj.type === "postMessage") {
+          const { id, username, content } = msgObj;
+          const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content }
+          client.send(JSON.stringify(msgObjWithId));
+          console.log("incomingMessage: ", JSON.stringify(msgObjWithId));
+        } else {
+          const { content } = msgObj;
+          const msgObjWithId = { type: 'incomingNotification', id: uuidv4(),  content }
+          client.send(JSON.stringify(msgObjWithId));
+          console.log("incomingNotification: ", JSON.stringify(msgObjWithId));
+
+        }
       // }
     });
   });
