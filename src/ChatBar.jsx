@@ -55,8 +55,8 @@ export default class ChatBar extends Component {
     const checkUser = this.props.currentUser ? this.props.currentUser : this.state.username
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" defaultValue={ checkUser } placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterText } />
-        <input className="chatbar-message" value={ this.state.text } onChange={this.onContent} placeholder="Type a message and hit ENTER" onKeyPress={ this.onEnterUsername } />
+        <input className="chatbar-username" defaultValue={ checkUser } placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterUsername } />
+        <input className="chatbar-message" value={ this.state.text } onChange={this.onContent} placeholder="Type a message and hit ENTER" onKeyPress={ this.onEnterText } />
       </footer>);
   }
 }
