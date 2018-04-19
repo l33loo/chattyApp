@@ -17,16 +17,16 @@ export default class ChatBar extends Component {
     this.setState({
       text: event.target.value
     });
-    console.log("WOOHOO: ", this.state);
+    // console.log("WOOHOO: ", this.state);
   }
 
   onEnter(event) {
     const state = {};
     if(event.key === "Enter") {
-      console.log("STATE before: ", this.state);
+      // console.log("STATE before: ", this.state);
       this.props.onNewPost(this.state.text);
       state.text = "";
-      console.log("STATE AFTER: ", this.state);
+      // console.log("STATE AFTER: ", this.state);
     }
     this.setState(state);
   }
