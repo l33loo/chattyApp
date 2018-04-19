@@ -31,20 +31,23 @@ class App extends Component {
 
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log("DUDUDUDUDATA!: ", data);
+            const msg = [data];
+            const messages = this.state.messages.concat(msg);
             switch (data.type) {
                 case "incomingMessage":
                     console.log("GOT TO MESSAGE@");
-                    const msg = [data];
-                    const messages = this.state.messages.concat(msg);
+                    // const msg = [data];
+                    // const messages = this.state.messages.concat(msg);
                     this.setState({ messages: messages });
                     break;
                 case "incomingNotification":
                     console.log("GOT TO USER@");
-                    const msg = [data];
+                    // const msg = [data];
                     // console.log(msg);
-                    const messages = this.state.messages.concat(msg);
+                    // const messages = this.state.messages.concat(msg);
                     console.log("NEW NAME!: ", data.content.slice(5));
-                    this.setState({ currentUser: data.content[5], messages: messages });
+                    this.setState({ currentUser: data.username, messages: messages });
                     break;
                 default:
                     throw new Error("unknown event type" + data.type);
@@ -75,8 +78,9 @@ class App extends Component {
         const content = oldName + " changed their name to " + name;
 
         const newUsername = {
-            content: content,
-            type: "postNotification"
+            type: "postNotification",
+            username: name,
+            content: content
         };
         // const messages = this.state.messages.concat(newMessage);
         // this.setState({ messages: messages });
