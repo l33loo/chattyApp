@@ -17,13 +17,13 @@ wss.on('connection', (ws) => {
       // if (client.readyState === WebSocket.OPEN) {
         const msgObj = JSON.parse(data);
         if (msgObj.type === "postMessage") {
-          const { id, username, content } = msgObj;
+          const { username, content } = msgObj;
           const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content }
           client.send(JSON.stringify(msgObjWithId));
           console.log("incomingMessage: ", JSON.stringify(msgObjWithId));
         } else {
-          const { content } = msgObj;
-          const msgObjWithId = { type: 'incomingNotification', id: uuidv4(),  content }
+          const { username, content } = msgObj;
+          const msgObjWithId = { type: 'incomingNotification', id: uuidv4(), username,  content }
           client.send(JSON.stringify(msgObjWithId));
           console.log("incomingNotification: ", JSON.stringify(msgObjWithId));
 
