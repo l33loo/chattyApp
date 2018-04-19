@@ -16,7 +16,7 @@ wss.on('connection', (ws) => {
     wss.clients.forEach((client) => {
       // if (client.readyState === WebSocket.OPEN) {
         const msgObj = JSON.parse(data);
-        const msgObjWithId = { id: uuidv4(), ...msgObj }
+        const msgObjWithId = { id: uuidv4(), type: 'incomingMessage', ...msgObj }
         client.send(JSON.stringify(msgObjWithId));
         console.log("DATA: ", JSON.stringify(msgObjWithId));
       // }
