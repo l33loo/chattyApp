@@ -29,13 +29,17 @@ class App extends Component {
             //     messages: this.state.messages.concat(newMessage)
             // });
         });
+        this.socket.onmessage = (event) => {
+            const msg = [JSON.parse(event.data)];
+            const messages = this.state.messages.concat(msg);
+            console.log("MESSAGES: ", messages);
+            console.log("TYPPPPE: ", typeof messages);
+            this.setState({ messages: messages });
+        }
     }
 
     onNewPost(text) {
         const newMessage = {
-            //need to change how id is created
-            id: (Math.floor(Math.random() * 2000) + 7),
-            type: 'incomingMessage',
             content: text,
             username: this.state.currentUser
         };
