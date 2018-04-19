@@ -14,12 +14,12 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('message', (data) => {
     wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
+      // if (client.readyState === WebSocket.OPEN) {
         const msgObj = JSON.parse(data);
         const msgObjWithId = { id: uuidv4(), ...msgObj }
         client.send(JSON.stringify(msgObjWithId));
         console.log("DATA: ", JSON.stringify(msgObjWithId));
-      }
+      // }
     });
   });
   ws.on('close', () => console.log("Client disconnected"));
