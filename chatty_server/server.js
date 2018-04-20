@@ -35,10 +35,11 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('message', (data) => {
+
     wss.clients.forEach((client) => {
       const msgObj = JSON.parse(data);
       const { username, content } = msgObj;
-      const msgObjWithId = { id: uuidv4(), username,  content };
+      const msgObjWithId = { id: uuidv4(), username, content };
       if (msgObj.type === "postMessage") {
         client.send(JSON.stringify({ type: 'incomingMessage', ...msgObjWithId, color: assignColorToUsername() }));
       } else {
