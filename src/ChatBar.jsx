@@ -26,12 +26,10 @@ export default class ChatBar extends Component {
   }
 
   onEnterText(event) {
-    const state = {};
     if(event.key === "Enter") {
       this.props.onNewPost(this.state.username, this.state.text);
-      state.text = "";
+      this.setState({ text: "" });
     }
-    this.setState(state);
   }
 
   onEnterUsername(event) {
