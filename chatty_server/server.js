@@ -30,32 +30,25 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   const numberConnectedMsg = { type: 'changeConnection', connected: wss.clients.size };
 
-//make and use broadcast fxn
   wss.clients.forEach((client) => {
     client.send(JSON.stringify(numberConnectedMsg));
   });
+
   ws.on('message', (data) => {
-
-    //use broadcast fxn
     wss.clients.forEach((client) => {
-
-      // see if I can put some of that on line 32.
       const msgObj = JSON.parse(data);
+      const { username, content } = msgObj;
+      const msgObjWithId = { id: uuidv4(), username,  content };
       if (msgObj.type === "postMessage") {
-        const { username, content } = msgObj;
-        const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content, color: assignColorToUsername() }
-        client.send(JSON.stringify(msgObjWithId));
+        client.send(JSON.stringify({ type: 'incomingMessage', ...msgObjWithId, color: assignColorToUsername() }));
       } else {
-        const { username, content } = msgObj;
-        const msgObjWithId = { type: 'incomingNotification', id: uuidv4(), username,  content }
-        client.send(JSON.stringify(msgObjWithId));
+        client.send(JSON.stringify({ type: 'incomingNotification', ...msgObjWithId }));
         }
     });
   });
+
   ws.on('close', () => {
     console.log("Client disconnected");
-
-    //use broadcast fxn
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(numberConnectedMsg));
     });
