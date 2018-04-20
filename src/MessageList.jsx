@@ -12,10 +12,3 @@ function MessageList ({ messages }) {
 }
 
 export default MessageList;
-
-
-//const X = (props) => (
-//<div>...</div>)
-// implicit return
-
-// deconstructing`

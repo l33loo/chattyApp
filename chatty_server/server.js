@@ -28,21 +28,16 @@ wss.on('connection', (ws) => {
   });
   ws.on('message', (data) => {
     wss.clients.forEach((client) => {
-      // if (client.readyState === WebSocket.OPEN) {
-        const msgObj = JSON.parse(data);
-        if (msgObj.type === "postMessage") {
-          const { username, content } = msgObj;
-          const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content, color: usernameColor }
-          client.send(JSON.stringify(msgObjWithId));
-          console.log("incomingMessage: ", JSON.stringify(msgObjWithId));
-        } else {
-          const { username, content } = msgObj;
-          const msgObjWithId = { type: 'incomingNotification', id: uuidv4(), username,  content }
-          client.send(JSON.stringify(msgObjWithId));
-          console.log("incomingNotification: ", JSON.stringify(msgObjWithId));
-
+      const msgObj = JSON.parse(data);
+      if (msgObj.type === "postMessage") {
+        const { username, content } = msgObj;
+        const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content, color: usernameColor }
+        client.send(JSON.stringify(msgObjWithId));
+      } else {
+        const { username, content } = msgObj;
+        const msgObjWithId = { type: 'incomingNotification', id: uuidv4(), username,  content }
+        client.send(JSON.stringify(msgObjWithId));
         }
-      // }
     });
   });
   ws.on('close', () => {
@@ -50,6 +45,5 @@ wss.on('connection', (ws) => {
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(numberConnectedMsg));
     });
-
   })
 });

@@ -18,19 +18,10 @@ class App extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount <App />");
-        // setTimeout(() => {
-        //     console.log("Simulating incoming message");
-        //     const newMessage = {id: 8, username: "Michelle", content: "Hello there!"}
-        //     const messages = this.state.messages.concat(newMessage);
-        //     this.setState({ messages: messages })
-        // }, 3000);
         this.socket = new WebSocket('ws://localhost:3001');
-
         this.socket.onopen = (event) => {
             console.log('Connected to server');
         };
-
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log("DUDUDUDUDATA!: ", data);
@@ -38,21 +29,12 @@ class App extends Component {
             const messages = this.state.messages.concat(msg);
             switch (data.type) {
                 case "incomingMessage":
-                    console.log("GOT TO MESSAGE@");
-                    // const msg = [data];
-                    // const messages = this.state.messages.concat(msg);
                     this.setState({ messages: messages });
                     break;
                 case "incomingNotification":
-                    console.log("GOT TO USER@");
-                    // const msg = [data];
-                    // console.log(msg);
-                    // const messages = this.state.messages.concat(msg);
-                    console.log("NEW NAME!: ", data.content.slice(5));
                     this.setState({ currentUser: data.username, messages: messages });
                     break;
                 case "changeConnection":
-                    console.log("NEW CONENCTION", data.connected);
                     this.setState({ number: data.connected });
                     break;
                 default:
@@ -66,37 +48,19 @@ class App extends Component {
             type: "postMessage",
             username: username,
             content: text
-
         };
-        // const messages = this.state.messages.concat(newMessage);
-        // this.setState({ messages: messages });
-        // console.log(this.state);
-        // this.socket.onopen = (event) => {
-            this.socket.send(JSON.stringify(newMessage));
-        // }
-
-        // Blank the text input element, ready to receive the next line of text from the user.
-        // document.getElementById("text").value = "";
+        this.socket.send(JSON.stringify(newMessage));
     }
 
     onNewUsername(name) {
         const oldName = "anonymous" || this.state.currentUser;
         const content = oldName + " changed their name to " + name;
-
         const newUsername = {
             type: "postNotification",
             username: name,
             content: content
         };
-        // const messages = this.state.messages.concat(newMessage);
-        // this.setState({ messages: messages });
-        // console.log(this.state);
-        // this.socket.onopen = (event) => {
-            this.socket.send(JSON.stringify(newUsername));
-        // }
-
-        // Blank the text input element, ready to receive the next line of text from the user.
-        // document.getElementById("text").value = "";
+        this.socket.send(JSON.stringify(newUsername));
     }
 
     render() {
@@ -112,4 +76,5 @@ class App extends Component {
             </div>);
     }
 }
+
 export default App;

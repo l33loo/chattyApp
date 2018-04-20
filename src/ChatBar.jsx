@@ -13,58 +13,40 @@ export default class ChatBar extends Component {
 
   }
 
-  // changeText = (event) => {
-  //   this.setState({ text: event.target.value });
-  // }
-
   onTextContent(event) {
     this.setState({
       text: event.target.value
     });
-    // console.log("WOOHOO: ", this.state);
   }
-
 
   onUsernameContent(event) {
     this.setState({
       username: event.target.value
     });
-    // console.log("WOOHOO: ", this.state);
   }
 
   onEnterText(event) {
     const state = {};
     if(event.key === "Enter") {
-      // console.log("STATE before: ", this.state);
       this.props.onNewPost(this.state.username, this.state.text);
       state.text = "";
-      // console.log("STATE AFTER: ", this.state);
     }
     this.setState(state);
   }
 
   onEnterUsername(event) {
-    // const state = {};
     if(event.key === "Enter") {
-      // console.log("STATE before: ", this.state);
       this.setState({ currentUser: this.state.username });
       this.props.onNewUsername(this.state.username);
-      // state.username = "";
-      // console.log("STATE AFTER: ", this.state);
     }
 
   }
 
   render() {
-    console.log("Rendering <ChatBar/>");
-
     const onSubmit = e => {
       e.preventDefault();
-      // this.props.sendMessage(this.state.text);
       this.setState({ text: '' });
     };
-
-    // const checkUser = this.props.currentUser ? this.props.currentUser : this.state.username;
 
     return (
       <footer className="chatbar">
