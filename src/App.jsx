@@ -16,7 +16,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("<App />: componentDidMount");
     this.socket = new WebSocket('ws://localhost:3001');
     this.socket.onopen = (event) => {
       console.log('Connected to server');
@@ -25,7 +24,6 @@ class App extends Component {
 
       // convert anonymous fxn into its own fxn (e.g., handleNewMsg)
       const data = JSON.parse(event.data);
-      console.log("DUDUDUDUDATA!: ", data);
       const msg = [data];
       const messages = this.state.messages.concat(msg);
       switch (data.type) {
@@ -65,7 +63,7 @@ class App extends Component {
   }
 
   render() {
-    console.log("Rendering <App/>");
+
     //make separate file for nav
     return (
       <div>
