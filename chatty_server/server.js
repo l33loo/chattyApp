@@ -38,8 +38,8 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     console.log("Client disconnected");
     wss.clients.forEach((client) => {
-    //   client.send(JSON.stringify(numberConnectedMsg));
-    // });
+      client.send(JSON.stringify(numberConnectedMsg));
+    });
 
   })
 });
