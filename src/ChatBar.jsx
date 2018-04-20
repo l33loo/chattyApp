@@ -68,7 +68,7 @@ export default class ChatBar extends Component {
 
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" type="incomingMessage" defaultValue={ "anonymous" || this.props.currentUser } onChange={this.onUsernameContent} placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterUsername } />
+        <input className="chatbar-username" type="incomingMessage" defaultValue={ this.props.currentUser } onChange={this.onUsernameContent} placeholder="Your Name (Optional) and hit ENTER" onKeyPress={ this.onEnterUsername } />
         <input className="chatbar-message" type="postMessage" value={ this.state.text } onChange={this.onTextContent} placeholder="Type a message and hit ENTER" onKeyPress={ this.onEnterText } />
       </footer>);
   }
