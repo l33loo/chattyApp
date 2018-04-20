@@ -8,7 +8,8 @@ class App extends Component {
         this.state = {
             currentUser: "",
             messages: [],
-            number: 0
+            number: 0,
+            color: ""
 
         }
         this.onNewPost = this.onNewPost.bind(this);
@@ -51,7 +52,7 @@ class App extends Component {
                     this.setState({ currentUser: data.username, messages: messages });
                     break;
                 case "changeConnection":
-                console.log("NEW CONENCTION", data.connected);
+                    console.log("NEW CONENCTION", data.connected);
                     this.setState({ number: data.connected });
                     break;
                 default:
@@ -106,7 +107,7 @@ class App extends Component {
                   <a className="navbar-brand" href="/">Chatty</a>
                   <div className="number-connected">{ this.state.number } user(s) connected</div>
                 </nav>
-                <MessageList messages={ this.state.messages } />
+                <MessageList messages={ this.state.messages } color={ this.state.color } currentUser={ this.state.currentUser } />
                 <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
             </div>);
     }
