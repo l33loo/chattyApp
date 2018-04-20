@@ -1,10 +1,13 @@
+// fix indentation
+
+
 import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
         this.state = {
             currentUser: "",
             messages: [],
@@ -14,7 +17,6 @@ class App extends Component {
         }
         this.onNewPost = this.onNewPost.bind(this);
         this.onNewUsername = this.onNewUsername.bind(this);
-
     }
 
     componentDidMount() {
@@ -23,6 +25,8 @@ class App extends Component {
             console.log('Connected to server');
         };
         this.socket.onmessage = (event) => {
+
+            // convert anonymous fxn into its own fxn (e.g., handleNewMsg)
             const data = JSON.parse(event.data);
             console.log("DUDUDUDUDATA!: ", data);
             const msg = [data];
@@ -65,15 +69,17 @@ class App extends Component {
 
     render() {
         console.log("Rendering <App/>");
+        //make separate file for nav
         return (
             <div>
                 <nav className="navbar">
-                  <a className="navbar-brand" href="/">Chatty</a>
-                  <div className="number-connected">{ this.state.number } user(s) connected</div>
+                    <a className="navbar-brand" href="/">Chatty</a>
+                    <div className="number-connected">{ this.state.number } user(s) connected</div>
                 </nav>
                 <MessageList messages={ this.state.messages } color={ this.state.color } currentUser={ this.state.currentUser } />
                 <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
-            </div>);
+            </div>
+        );
     }
 }
 
