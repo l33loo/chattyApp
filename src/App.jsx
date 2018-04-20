@@ -7,7 +7,8 @@ class App extends Component {
         super();
         this.state = {
             currentUser: "",
-            messages: []
+            messages: [],
+            number: 0
 
         }
         this.onNewPost = this.onNewPost.bind(this);
@@ -49,8 +50,12 @@ class App extends Component {
                     console.log("NEW NAME!: ", data.content.slice(5));
                     this.setState({ currentUser: data.username, messages: messages });
                     break;
+                case "changeConnection":
+                console.log("NEW CONENCTION", data.connected);
+                    this.setState({ number: data.connected });
+                    break;
                 default:
-                    throw new Error("unknown event type" + data.type);
+                    throw new Error("unknown event type " + data.type);
             }
         };
     }
@@ -99,6 +104,7 @@ class App extends Component {
             <div>
                 <nav className="navbar">
                   <a className="navbar-brand" href="/">Chatty</a>
+                  <div className="number-connected">{ this.state.number } user(s) connected</div>
                 </nav>
                 <MessageList messages={ this.state.messages } />
                 <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
