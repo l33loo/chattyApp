@@ -12,6 +12,8 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+
+  //make into function
   let usernameColor = "";
   if (wss.clients.size % 4 === 0) {
     usernameColor = "#961092";
@@ -23,11 +25,17 @@ wss.on('connection', (ws) => {
     usernameColor = "#a51c29";
   }
   const numberConnectedMsg = { type: 'changeConnection', connected: wss.clients.size };
+
+//make and use broadcast fxn
   wss.clients.forEach((client) => {
     client.send(JSON.stringify(numberConnectedMsg));
   });
   ws.on('message', (data) => {
+
+    //use broadcast fxn
     wss.clients.forEach((client) => {
+
+      // see if I can put some of that on line 32.
       const msgObj = JSON.parse(data);
       if (msgObj.type === "postMessage") {
         const { username, content } = msgObj;
@@ -42,6 +50,8 @@ wss.on('connection', (ws) => {
   });
   ws.on('close', () => {
     console.log("Client disconnected");
+
+    //use broadcast fxn
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(numberConnectedMsg));
     });
