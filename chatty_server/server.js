@@ -12,6 +12,10 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  const numberConnectedMsg = { type: 'changeConnection', connected: wss.clients.size };
+  wss.clients.forEach((client) => {
+    client.send(JSON.stringify(numberConnectedMsg));
+  });
   ws.on('message', (data) => {
     wss.clients.forEach((client) => {
       // if (client.readyState === WebSocket.OPEN) {
@@ -31,5 +35,11 @@ wss.on('connection', (ws) => {
       // }
     });
   });
-  ws.on('close', () => console.log("Client disconnected"));
+  ws.on('close', () => {
+    console.log("Client disconnected");
+    wss.clients.forEach((client) => {
+    //   client.send(JSON.stringify(numberConnectedMsg));
+    // });
+
+  })
 });
