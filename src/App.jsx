@@ -1,6 +1,3 @@
-// fix indentation
-
-
 import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
@@ -8,79 +5,79 @@ import ChatBar from './ChatBar.jsx';
 class App extends Component {
   constructor() {
     super();
-        this.state = {
-            currentUser: "",
-            messages: [],
-            number: 0,
-            color: ""
-
-        }
-        this.onNewPost = this.onNewPost.bind(this);
-        this.onNewUsername = this.onNewUsername.bind(this);
+    this.state = {
+      currentUser: "",
+      messages: [],
+      number: 0,
+      color: ""
     }
+    this.onNewPost = this.onNewPost.bind(this);
+    this.onNewUsername = this.onNewUsername.bind(this);
+  }
 
-    componentDidMount() {
-        this.socket = new WebSocket('ws://localhost:3001');
-        this.socket.onopen = (event) => {
-            console.log('Connected to server');
-        };
-        this.socket.onmessage = (event) => {
+  componentDidMount() {
+    console.log("<App />: componentDidMount");
+    this.socket = new WebSocket('ws://localhost:3001');
+    this.socket.onopen = (event) => {
+      console.log('Connected to server');
+    };
+    this.socket.onmessage = (event) => {
 
-            // convert anonymous fxn into its own fxn (e.g., handleNewMsg)
-            const data = JSON.parse(event.data);
-            console.log("DUDUDUDUDATA!: ", data);
-            const msg = [data];
-            const messages = this.state.messages.concat(msg);
-            switch (data.type) {
-                case "incomingMessage":
-                    this.setState({ messages: messages });
-                    break;
-                case "incomingNotification":
-                    this.setState({ currentUser: data.username, messages: messages });
-                    break;
-                case "changeConnection":
-                    this.setState({ number: data.connected });
-                    break;
-                default:
-                    throw new Error("unknown event type " + data.type);
-            }
-        };
-    }
+      // convert anonymous fxn into its own fxn (e.g., handleNewMsg)
+      const data = JSON.parse(event.data);
+      console.log("DUDUDUDUDATA!: ", data);
+      const msg = [data];
+      const messages = this.state.messages.concat(msg);
+      switch (data.type) {
+        case "incomingMessage":
+          this.setState({ messages: messages });
+          break;
+        case "incomingNotification":
+          this.setState({ currentUser: data.username, messages: messages });
+          break;
+        case "changeConnection":
+          this.setState({ number: data.connected });
+          break;
+        default:
+          throw new Error("unknown event type " + data.type);
+      }
+    };
+  }
 
-    onNewPost(username, text) {
-        const newMessage = {
-            type: "postMessage",
-            username: username,
-            content: text
-        };
-        this.socket.send(JSON.stringify(newMessage));
-    }
+  onNewPost(username, text) {
+    const newMessage = {
+      type: "postMessage",
+      username: username,
+      content: text
+    };
+    this.socket.send(JSON.stringify(newMessage));
+  }
 
-    onNewUsername(name) {
-        const oldName = "anonymous" || this.state.currentUser;
-        const content = oldName + " changed their name to " + name;
-        const newUsername = {
-            type: "postNotification",
-            username: name,
-            content: content
-        };
-        this.socket.send(JSON.stringify(newUsername));
-    }
+  onNewUsername(name) {
+    const oldName = "anonymous" || this.state.currentUser;
+    const content = oldName + " changed their name to " + name;
+    const newUsername = {
+      type: "postNotification",
+      username: name,
+      content: content
+    };
+    this.socket.send(JSON.stringify(newUsername));
+  }
 
-    render() {
-        console.log("Rendering <App/>");
-        //make separate file for nav
-        return (
-            <div>
-                <nav className="navbar">
-                    <a className="navbar-brand" href="/">Chatty</a>
-                    <div className="number-connected">{ this.state.number } user(s) connected</div>
-                </nav>
-                <MessageList messages={ this.state.messages } color={ this.state.color } currentUser={ this.state.currentUser } />
-                <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
-            </div>
-        );
-    }
+  render() {
+    console.log("Rendering <App/>");
+    //make separate file for nav
+    return (
+      <div>
+        <nav className="navbar">
+          <a className="navbar-brand" href="/">Chatty</a>
+          <div className="number-connected">{ this.state.number } user(s) connected</div>
+        </nav>
+        <MessageList messages={ this.state.messages } color={ this.state.color } currentUser={ this.state.currentUser } />
+        <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
+      </div>
+    );
+  }
 }
 
 export default App;
