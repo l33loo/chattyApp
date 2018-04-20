@@ -10,20 +10,24 @@ const server = express()
 
 const wss = new WebSocket.Server({ server });
 
+// assigns colors cyclically
+const assignColorToUsername = () => {
+  if (wss.clients.size % 4 === 0) {
+    return "#961092";
+  }
+  if (wss.clients.size % 3 === 0) {
+    return "#101496";
+  }
+  if (wss.clients.size % 2 === 0) {
+    return "#1f9610";
+  }
+  if (wss.clients.size % 1 === 0)  {
+    return "#a51c29";
+  }
+};
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
-
-  //make into function
-  let usernameColor = "";
-  if (wss.clients.size % 4 === 0) {
-    usernameColor = "#961092";
-  } else if (wss.clients.size % 3 === 0) {
-    usernameColor = "#101496";
-  } else if (wss.clients.size % 2 === 0) {
-    usernameColor = "#1f9610";
-  } else if (wss.clients.size % 1 === 0)  {
-    usernameColor = "#a51c29";
-  }
   const numberConnectedMsg = { type: 'changeConnection', connected: wss.clients.size };
 
 //make and use broadcast fxn
@@ -39,7 +43,7 @@ wss.on('connection', (ws) => {
       const msgObj = JSON.parse(data);
       if (msgObj.type === "postMessage") {
         const { username, content } = msgObj;
-        const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content, color: usernameColor }
+        const msgObjWithId = { type: 'incomingMessage', id: uuidv4(), username, content, color: assignColorToUsername() }
         client.send(JSON.stringify(msgObjWithId));
       } else {
         const { username, content } = msgObj;
