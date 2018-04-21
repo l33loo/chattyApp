@@ -62,8 +62,6 @@ class App extends Component {
   }
 
   render() {
-
-    //make separate file for nav
     return (
       <div>
         <NavBar number={ this.state.number } />
