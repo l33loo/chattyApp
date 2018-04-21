@@ -1,6 +1,8 @@
 import React from 'react';
 
-// check if message is a url to an image
+// Check if message is a url of an image.
+// Not perfect as it needs to be just a URL that ends in
+// jpg, pgn, gif to work properly.
 const isImage = (message) => {
   const last3digitsText = message.slice(message.length - 3);
   return last3digitsText === "jpg" || last3digitsText === "png" || last3digitsText === "gif"
