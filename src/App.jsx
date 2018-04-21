@@ -25,6 +25,8 @@ class App extends Component {
       const data = JSON.parse(event.data);
       const msg = [data];
       const messages = this.state.messages.concat(msg);
+
+      // set state according to type of message
       switch (data.type) {
         case "incomingMessage":
           this.setState({ messages: messages });

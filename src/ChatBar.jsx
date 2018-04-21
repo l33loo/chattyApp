@@ -7,18 +7,18 @@ export default class ChatBar extends Component {
 
     this.onTextContent = this.onTextContent.bind(this);
     this.onUsernameContent = this.onUsernameContent.bind(this);
-
     this.onEnterText = this.onEnterText.bind(this);
     this.onEnterUsername = this.onEnterUsername.bind(this);
-
   }
 
+  // bind state to input field
   onTextContent(event) {
     this.setState({
       text: event.target.value
     });
   }
 
+  // bind state to input field
   onUsernameContent(event) {
     this.setState({
       username: event.target.value
@@ -37,7 +37,6 @@ export default class ChatBar extends Component {
       this.setState({ currentUser: this.state.username });
       this.props.onNewUsername(this.state.username);
     }
-
   }
 
   render() {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+// check if message is a url to an image
 const isImage = (message) => {
   const last3digitsText = message.slice(message.length - 3);
   return last3digitsText === "jpg" || last3digitsText === "png" || last3digitsText === "gif"
