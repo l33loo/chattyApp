@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NavBar from './NavBar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
@@ -21,8 +22,6 @@ class App extends Component {
       console.log('Connected to server');
     };
     this.socket.onmessage = (event) => {
-
-      // convert anonymous fxn into its own fxn (e.g., handleNewMsg)
       const data = JSON.parse(event.data);
       const msg = [data];
       const messages = this.state.messages.concat(msg);
@@ -67,10 +66,7 @@ class App extends Component {
     //make separate file for nav
     return (
       <div>
-        <nav className="navbar">
-          <a className="navbar-brand" href="/">Chatty</a>
-          <div className="number-connected">{ this.state.number } user(s) connected</div>
-        </nav>
+        <NavBar number={ this.state.number } />
         <MessageList messages={ this.state.messages } color={ this.state.color } currentUser={ this.state.currentUser } />
         <ChatBar currentUser={ this.state.currentUser } onNewPost={ this.onNewPost } onNewUsername={ this.onNewUsername} />
       </div>
