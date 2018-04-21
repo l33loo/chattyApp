@@ -16,7 +16,10 @@ This was a solo project that served as practice with ReactJS and WebSockets.
 
 ### Final Product
 
-
+!["screenshot of Chatty with one user connected"](https://github.com/l33loo/chattyApp/blob/master/docs/1_one_user_connected.png?raw=true)
+!["screenshot of Chatty with two users connected"](https://github.com/l33loo/chattyApp/blob/master/docs/2_second_user_joins.png?raw=true)
+!["screenshot of Chatty with three users connected"](https://github.com/l33loo/chattyApp/blob/master/docs/3_three_users.png?raw=true)
+!["screenshot of Chatty after a user has posted the URL of an image"](https://github.com/l33loo/chattyApp/blob/master/docs/4_user_posts_pic_url.png?raw=true)
 
 ### Getting Started
 
