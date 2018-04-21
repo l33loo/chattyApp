@@ -22,12 +22,12 @@ const Message = ({ message }) => {
           <span style={ usernameColor } className="message-username">{ username }</span>
           <span className="message-content">{ message.content }</span>
         </div>;
-        break;
       case "incomingNotification":
         return <div className="notification">
           <span className="notification-content">{ message.content }</span>
         </div>;
-        break;
+      default:
+        throw new Error("unknown message type " + message.type);
     }
   }
 };
